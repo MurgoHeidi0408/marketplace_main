@@ -1,3 +1,8 @@
+"# marketplace_main" 
+
+# Django Forms
+
+```python 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -51,7 +56,10 @@ class SignupForm(UserCreationForm):
             'class': 'form-control'
         }
     ))
-    from django.shortcuts import render, get_object_or_404, redirect
+```
+# Registro de usuarios en views.py
+```python
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
 from .models import Item, Category
 
@@ -103,8 +111,11 @@ def register(request):
     }
 
     return render(request, 'store/signup.html', context)
+    ```
 
-    {% extends 'store/base.html' %}
+# Templates de login y signup
+```html
+{% extends 'store/base.html' %}
 
 {% block title %}Login | {% endblock %}
 
@@ -140,16 +151,17 @@ def register(request):
     </div>
 </div>
 {% endblock %}
+```
 
-
+```html
 {% extends 'store/base.html' %}
 
-{% block title %}Registro | {% endblock %}
+{% block title %}Login | {% endblock %}
 
 {% block content %}
 <div class="row p-4">
     <div class="col-6 bg-light p-4">
-        <h4 class="mb-6 text-center">Registro</h4>
+        <h4 class="mb-6 text-center">Login</h4>
         <hr>
         <form action="." method="POST">
             {% csrf_token %}
@@ -157,17 +169,10 @@ def register(request):
                 <h6>Username:</h6>
                 {{ form.username }}
             </div>
-            <div class="form-floating mb-3">
-                <h6>Email:</h6>
-                {{ form.email }}
-            </div>
+ 
             <div class="form-floating mb-3">
                 <h6>Password:</h6>
-                {{ form.password1 }}
-            </div>
-            <div class="form-floating mb-3">
-                <h6>Repite Password:</h6>
-                {{ form.password2 }}
+                {{ form.password }}
             </div>
 
             {% if form.errors or form.non_field_errors %}
@@ -179,14 +184,16 @@ def register(request):
                     {{ form.non_field_errors }}
                 </div>
             {% endif %}
-            <button class="btn btn-primary mb-6">Register</button>
+            <button class="btn btn-primary mb-6">Login</button>
 
         </form>
     </div>
 </div>
 {% endblock %}
+```
 
-
+# Rutas en url's para login y registro de usuarios
+```python
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
@@ -200,3 +207,4 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='store/login.html', authentication_form=LoginForm), name='login'),
     path('detail/<int:pk>/', detail, name='detail'),
 ]
+```
